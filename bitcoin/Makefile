@@ -12,12 +12,14 @@ bitcoin_clone:
 bitcoin_config:
 	if [ ! -f "bitcoin-$(BITCOIN_VERSION)/configure" ]; then (cd bitcoin-$(BITCOIN_VERSION) && ./autogen.sh); fi
 	( cd bitcoin-$(BITCOIN_VERSION); \
-		CFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		CXXFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		CPPFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		LDFLAGS="${BSPLDFLAGS} -L${BSPROOTFS}/lib" \
+		CC=${BSPCC} \
+		CXX=${BSPCXX} \
+		CFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		CXXFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		CPPFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		LDFLAGS="${BSPLDFLAGS} ${BSPSYSROOT} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
-		./configure --prefix=${BSPROOTFS} \
+		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --disable-shared --enable-static \
 		--disable-tests --disable-bench --disable-man \
 		--disable-asm --disable-zmq --without-miniupnpc \
