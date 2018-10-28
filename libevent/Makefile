@@ -11,12 +11,13 @@ libevent_clone:
 
 libevent_config:
 	( cd libevent-$(LIBEVENT_VERSION); \
-		CFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		CXXFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		CPPFLAGS="${BSPCFLAGS} -I${BSPROOTFS}/include" \
-		LDFLAGS="${BSPLDFLAGS} -L${BSPROOTFS}/lib" \
+		${BSPCC} ${BSPCXX} \
+		CFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		CXXFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		CPPFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
+		LDFLAGS="${BSPLDFLAGS} ${BSPSYSROOT} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
-		./configure --prefix=${BSPROOTFS} \
+		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
 		--enable-openssl --disable-libevent-regress \
 		--disable-samples --disable-debug-mode; \
