@@ -1,0 +1,28 @@
+#!/bin/sh
+
+BSPJOB=4
+BSPROOT=`pwd`
+BSPTOOLS=${BSPROOT}/tools/o
+BSPROOTFS=${BSPROOT}/rootfs/ios64
+PATH=${BSPTOOLS}/bin:${PATH}
+
+export BSPJOB BSPROOT BSPTOOLS BSPROOTFS PATH
+
+
+SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
+
+BSPCC=$(xcrun --sdk iphoneos -f clang)
+BSPCXX=$(xcrun --sdk iphoneos -f clang++)
+BSPHOST="--host=aarch64-apple-darwin"
+BSPPREFIX=
+BSPCFLAGS="-arch arm64 -miphoneos-version-min=7.0 -fno-common"
+BSPLDFLAGS=
+BSPSYSROOT="-isysroot $SDKROOT"
+BSPTOOLCHAIN=
+
+export BSPCC BSPCXX BSPHOST BSPPREFIX BSPCFLAGS BSPLDFLAGS BSPSYSROOT BSPTOOLCHAIN
+
+export TARGET_MACHINE=ios64
+
+# tool selection
+export TOOLS_ENABLE_CMAKE=y
