@@ -11,7 +11,8 @@ libevent_clone:
 
 libevent_config:
 	( cd libevent-$(LIBEVENT_VERSION); \
-		${BSPCC} ${BSPCXX} \
+		CC=${BSPCC} \
+		CXX=${BSPCXX} \
 		CFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
 		CXXFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
 		CPPFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
