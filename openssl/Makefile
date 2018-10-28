@@ -23,7 +23,7 @@ openssl_clone:
 openssl_config:
 	( cd openssl-$(OPENSSL_VERSION); \
 		CFLAGS="" CXXFLAGS="" LDFLAGS="" \
-		./Configure $(OPENSSL_PLT) ${BSPCFLAGS} ${BSPLDFLAGS} --prefix=${BSPROOTFS} \
+		./Configure $(OPENSSL_PLT) ${BSPEXTRAFLAGS} --prefix=${BSPROOTFS} \
 		no-asm no-shared no-zlib no-zlib-dynamic no-comp no-ssl no-dtls no-tls1 no-tls1_1 no-weak-ssl-ciphers no-hw no-dso no-engine \
 	)
 
