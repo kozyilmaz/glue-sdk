@@ -22,12 +22,12 @@ boost_config:
 boost_build:
 	( cd boost_$(BOOST_VERSION); \
 		./b2 headers; \
-		./b2 cxxflags="-std=c++11 -fPIC ${BSPCFLAGS} ${BSPSYSROOT}" linkflags="-std=c++11 -fPIC ${BSPLDFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared \
+		./b2 cxxflags="-std=c++11 -fPIC ${BSPCFLAGS} ${BSPEXTRAFLAGS}" linkflags="-std=c++11 -fPIC ${BSPLDFLAGS} ${BSPEXTRAFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared \
 	)
 
 boost_install:
 	( cd boost_$(BOOST_VERSION); \
-		./b2 cxxflags="-std=c++11 -fPIC ${BSPCFLAGS} ${BSPSYSROOT}" linkflags="-std=c++11 -fPIC ${BSPLDFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared install \
+		./b2 cxxflags="-std=c++11 -fPIC ${BSPCFLAGS} ${BSPEXTRAFLAGS}" linkflags="-std=c++11 -fPIC ${BSPLDFLAGS} ${BSPEXTRAFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared install \
 	)
 
 boost_uninstall:
