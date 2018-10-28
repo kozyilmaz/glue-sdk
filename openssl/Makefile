@@ -8,10 +8,12 @@ OPENSSL_VERSION=1.1.1
 ifeq      ($(TARGET_OS),WINDOWS)
 else ifeq ($(TARGET_OS),MACOS)
 OPENSSL_PLT = darwin64-x86_64-cc
-OPENSSL_DIR = /etc/ssl
 else ifeq ($(TARGET_OS),LINUX)
 OPENSSL_PLT = linux-x86_64
-OPENSSL_DIR = /etc/ssl
+else ifeq ($(TARGET_OS),IOS64)
+OPENSSL_PLT = ios64-xcrun
+else ifeq ($(TARGET_OS),IOSSIM)
+OPENSSL_PLT = iossimulator-xcrun
 endif
 
 openssl_clone:
@@ -21,7 +23,7 @@ openssl_clone:
 openssl_config:
 	( cd openssl-$(OPENSSL_VERSION); \
 		CFLAGS="" CXXFLAGS="" \
-		./Configure $(OPENSSL_PLT) ${BSPCFLAGS} ${BSPLDFLAGS} --prefix=${BSPROOTFS} --openssldir=$(OPENSSL_DIR) \
+		./Configure $(OPENSSL_PLT) ${BSPCFLAGS} ${BSPLDFLAGS} --prefix=${BSPROOTFS} \
 		no-asm no-shared no-zlib no-zlib-dynamic no-comp no-ssl no-dtls no-tls1 no-tls1_1 no-weak-ssl-ciphers no-hw no-dso no-engine \
 	)
 
