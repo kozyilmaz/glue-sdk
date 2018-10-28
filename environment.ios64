@@ -8,11 +8,10 @@ PATH=${BSPTOOLS}/bin:${PATH}
 
 export BSPJOB BSPROOT BSPTOOLS BSPROOTFS PATH
 
-
 SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
 
-BSPCC=$(xcrun --sdk iphoneos -f clang)
-BSPCXX=$(xcrun --sdk iphoneos -f clang++)
+BSPCC="$(xcrun --sdk iphoneos -f clang) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
+BSPCXX="$(xcrun --sdk iphoneos -f clang++) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
 BSPHOST="--host=aarch64-apple-darwin"
 BSPPREFIX=
 BSPCFLAGS="-arch arm64 -miphoneos-version-min=7.0 -fno-common"
