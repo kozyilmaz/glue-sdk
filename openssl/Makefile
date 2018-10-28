@@ -21,6 +21,7 @@ openssl_clone:
 	if [ ! -d "openssl-$(OPENSSL_VERSION)" ]; then tar xvf openssl-$(OPENSSL_VERSION).tar.gz; fi
 
 openssl_config:
+	$(call patchme,openssl-$(OPENSSL_VERSION))
 	( cd openssl-$(OPENSSL_VERSION); \
 		CFLAGS="" CXXFLAGS="" LDFLAGS="" \
 		./Configure $(OPENSSL_PLT) ${BSPEXTRAFLAGS} --prefix=${BSPROOTFS} \
