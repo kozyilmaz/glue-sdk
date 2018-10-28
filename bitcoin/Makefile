@@ -12,8 +12,8 @@ bitcoin_clone:
 bitcoin_config:
 	if [ ! -f "bitcoin-$(BITCOIN_VERSION)/configure" ]; then (cd bitcoin-$(BITCOIN_VERSION) && ./autogen.sh); fi
 	( cd bitcoin-$(BITCOIN_VERSION); \
-		CC="${BSPCC}" \
-		CXX="${BSPCXX}" \
+		CC=${BSPCC} \
+		CXX=${BSPCXX} \
 		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
 		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
 		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
