@@ -13,10 +13,10 @@ libevent_config:
 	( cd libevent-$(LIBEVENT_VERSION); \
 		CC=${BSPCC} \
 		CXX=${BSPCXX} \
-		CFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
-		CXXFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
-		CPPFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
-		LDFLAGS="${BSPLDFLAGS} ${BSPSYSROOT} -L${BSPROOTFS}/lib" \
+		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
 		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
