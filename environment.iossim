@@ -5,13 +5,13 @@ BSPROOT=`pwd`
 # platform
 BSPCC=$(xcrun --sdk iphonesimulator -f clang)
 BSPCXX=$(xcrun --sdk iphonesimulator -f clang++)
-BSPHOST="--host=x86_64-apple-ios"
-BSPCFLAGS="-arch arm64 -miphoneos-version-min=11.0 -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path) -fno-common"
+BSPHOST="--host=x86_64-apple-darwin"
+BSPCFLAGS="-arch x86_64 -miphoneos-version-min=11.0 -isysroot $(xcrun --sdk iphonesimulator --show-sdk-path) -fno-common"
 BSPLDFLAGS=
 BSPEXTRAFLAGS=
 # tools and output
 BSPTOOLS=${BSPROOT}/tools/o
-BSPROOTFS=${BSPROOT}/rootfs/ios64
+BSPROOTFS=${BSPROOT}/rootfs/iossim
 PATH=${BSPTOOLS}/bin:${PATH}
 
 export BSPJOB BSPROOT BSPCC BSPCXX BSPHOST BSPCFLAGS BSPLDFLAGS BSPEXTRAFLAGS BSPTOOLS BSPROOTFS PATH
