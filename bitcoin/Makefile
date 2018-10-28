@@ -12,8 +12,8 @@ bitcoin_clone:
 bitcoin_config:
 	if [ ! -f "bitcoin-$(BITCOIN_VERSION)/configure" ]; then (cd bitcoin-$(BITCOIN_VERSION) && ./autogen.sh); fi
 	( cd bitcoin-$(BITCOIN_VERSION); \
-		CC=${BSPCC} \
-		CXX=${BSPCXX} \
+		CC="${BSPCC}" \
+		CXX="${BSPCXX}" \
 		CFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
 		CXXFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
 		CPPFLAGS="${BSPCFLAGS} ${BSPSYSROOT} -I${BSPROOTFS}/include" \
@@ -23,7 +23,7 @@ bitcoin_config:
 		--with-pic --disable-shared --enable-static \
 		--disable-tests --disable-bench --disable-man \
 		--disable-asm --disable-zmq --without-miniupnpc \
-		--disable-wallet --without-gui --without-daemon \
+		--disable-wallet --without-gui --with-daemon \
 		--with-utils --with-libs \
 		--with-boost=${BSPROOTFS} \
 		SSL_CFLAGS="-I${BSPROOTFS}/include" SSL_LIBS="-L${BSPROOTFS}/lib -lssl" \
@@ -36,6 +36,7 @@ bitcoin_build:
 	make -C bitcoin-$(BITCOIN_VERSION) -j ${BSPJOB}
 
 bitcoin_install:
+	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoind" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoind ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a ${BSPROOTFS}/lib; fi
@@ -97,6 +98,7 @@ bitcoin_install:
 	cp bitcoin-$(BITCOIN_VERSION)/src/core_io.h ${BSPROOTFS}/include/bitcoin
 
 bitcoin_uninstall:
+	if [ -f "${BSPROOTFS}/bin/bitcoind" ]; then rm -rf ${BSPROOTFS}/bin/bitcoind; fi
 	if [ -f "${BSPROOTFS}/bin/bitcoin-tx" ]; then rm -rf ${BSPROOTFS}/bin/bitcoin-tx; fi
 	if [ -f "${BSPROOTFS}/bin/bitcoin-cli" ]; then rm -rf ${BSPROOTFS}/bin/bitcoin-cli; fi
 	if [ -f "${BSPROOTFS}/lib/libunivalue.a" ]; then rm -rf ${BSPROOTFS}/lib/libunivalue.a; fi
