@@ -14,21 +14,25 @@ boost_clone:
 	if [ ! -d "boost_$(BOOST_VERSION)" ]; then tar xvf boost_$(BOOST_VERSION).tar.bz2; fi
 
 boost_config:
+	if [ ! -f boost_$(BOOST_VERSION)/tools/build/src/user-config.jam ]; then \
+		echo "using darwin : custom : ${BSPCXX} ${BSPCFLAGS} ${BSPSYSROOT} -fvisibility=hidden -fvisibility-inlines-hidden ; " >> boost_$(BOOST_VERSION)/tools/build/src/user-config.jam; \
+	fi
 	( cd boost_$(BOOST_VERSION); ./bootstrap.sh --prefix=${BSPROOTFS} --without-icu --with-libraries=chrono,filesystem,program_options,system,thread,test )
 
 boost_build:
 	( cd boost_$(BOOST_VERSION); \
 		./b2 headers; \
-		./b2 cxxflags="-std=c++11 -fvisibility=hidden -fPIC ${BSPCFLAGS}" linkflags="-std=c++11 -fvisibility=hidden -fPIC ${BSPLDFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared \
+		./b2 cxxflags="-std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fPIC ${BSPCFLAGS} ${BSPSYSROOT}" linkflags="-std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fPIC ${BSPLDFLAGS} ${BSPSYSROOT}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared \
 	)
 
 boost_install:
 	( cd boost_$(BOOST_VERSION); \
-		./b2 cxxflags="-std=c++11 -fvisibility=hidden -fPIC ${BSPCFLAGS}" linkflags="-std=c++11 -fvisibility=hidden -fPIC ${BSPLDFLAGS}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared install \
+		./b2 cxxflags="-std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fPIC ${BSPCFLAGS} ${BSPSYSROOT}" linkflags="-std=c++11 -fvisibility=hidden -fvisibility-inlines-hidden -fPIC ${BSPLDFLAGS} ${BSPSYSROOT}" -j ${BSPJOB} variant=release --layout=tagged --build-type=complete threading=multi link=static -sNO_BZIP2=1 -sNO_ZLIB=1 runtime-link=shared install \
 	)
 
 boost_uninstall:
-	@true
+	rm -rf ${BSPROOTFS}/include/boost;
+	rm -rf ${BSPROOTFS}/lib/libboost_*
 
 boost_clean:
 	if [ -f "boost_$(BOOST_VERSION)/Makefile" ]; then make -C boost_$(BOOST_VERSION) distclean; fi
