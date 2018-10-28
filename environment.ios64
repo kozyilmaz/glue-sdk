@@ -1,14 +1,12 @@
 #!/bin/sh
 
-SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
-
 BSPJOB=4
 BSPROOT=`pwd`
 # platform
-BSPCC="$(xcrun --sdk iphoneos -f clang) -arch arm64 -miphoneos-version-min=11.0 -isysroot $SDKROOT -fno-common"
-BSPCXX="$(xcrun --sdk iphoneos -f clang++) -arch arm64 -miphoneos-version-min=11.0 -isysroot $SDKROOT -fno-common"
+BSPCC=$(xcrun --sdk iphoneos -f clang)
+BSPCXX=$(xcrun --sdk iphoneos -f clang++)
 BSPHOST="--host=aarch64-apple-darwin"
-BSPCFLAGS="-arch arm64 -miphoneos-version-min=11.0 -isysroot $SDKROOT -fno-common"
+BSPCFLAGS="-arch arm64 -miphoneos-version-min=11.0 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) -fno-common"
 BSPLDFLAGS=
 BSPEXTRAFLAGS=
 # tools and output
