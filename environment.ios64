@@ -1,26 +1,24 @@
 #!/bin/sh
 
+SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
+
 BSPJOB=4
 BSPROOT=`pwd`
+# platform
+BSPCC="$(xcrun --sdk iphoneos -f clang) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
+BSPCXX="$(xcrun --sdk iphoneos -f clang++) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
+BSPHOST="--host=aarch64-apple-darwin"
+BSPCFLAGS="-arch arm64 -miphoneos-version-min=7.0 -fno-common"
+BSPLDFLAGS=
+BSPSYSROOT="-isysroot $SDKROOT"
+# tools and output
 BSPTOOLS=${BSPROOT}/tools/o
 BSPROOTFS=${BSPROOT}/rootfs/ios64
 PATH=${BSPTOOLS}/bin:${PATH}
 
-export BSPJOB BSPROOT BSPTOOLS BSPROOTFS PATH
+export BSPJOB BSPROOT BSPCC BSPCXX BSPHOST BSPCFLAGS BSPLDFLAGS BSPSYSROOT BSPTOOLS BSPROOTFS PATH
 
-SDKROOT=$(xcrun --sdk iphoneos --show-sdk-path)
-
-BSPCC="$(xcrun --sdk iphoneos -f clang) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
-BSPCXX="$(xcrun --sdk iphoneos -f clang++) -arch arm64 -miphoneos-version-min=7.0 -isysroot $SDKROOT -fno-common"
-BSPHOST="--host=aarch64-apple-darwin"
-BSPPREFIX=
-BSPCFLAGS="-arch arm64 -miphoneos-version-min=7.0 -fno-common"
-BSPLDFLAGS=
-BSPSYSROOT="-isysroot $SDKROOT"
-BSPTOOLCHAIN=
-
-export BSPCC BSPCXX BSPHOST BSPPREFIX BSPCFLAGS BSPLDFLAGS BSPSYSROOT BSPTOOLCHAIN
-
+# for Makefile's
 export TARGET_MACHINE=ios64
 
 # tool selection
