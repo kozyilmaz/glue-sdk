@@ -5,14 +5,14 @@ include ../Makefile.build
 
 OPENSSL_VERSION=1.1.1
 
-ifeq      ($(TARGET_OS),WINDOWS)
-else ifeq ($(TARGET_OS),MACOS)
+ifeq      ($(TARGET_PLATFORM),WINDOWS)
+else ifeq ($(TARGET_PLATFORM),MACOS)
 OPENSSL_PLT = darwin64-x86_64-cc
-else ifeq ($(TARGET_OS),LINUX)
+else ifeq ($(TARGET_PLATFORM),LINUX)
 OPENSSL_PLT = linux-x86_64
-else ifeq ($(TARGET_OS),IOS64)
+else ifeq ($(TARGET_PLATFORM),IOS64)
 OPENSSL_PLT = ios64-xcrun
-else ifeq ($(TARGET_OS),IOSSIM)
+else ifeq ($(TARGET_PLATFORM),IOSSIM)
 OPENSSL_PLT = iossimulator-xcrun
 endif
 
