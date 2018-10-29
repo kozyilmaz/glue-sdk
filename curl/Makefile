@@ -11,19 +11,23 @@ curl_clone:
 
 curl_config:
 	( cd curl-$(CURL_VERSION); \
-		CFLAGS="${BSPCFLAGS}" \
-		CXXFLAGS="${BSPCFLAGS}" \
-		CPPFLAGS="${BSPCFLAGS}" \
-		LDFLAGS="${BSPLDFLAGS}" \
+		CC=${BSPCC} \
+		CXX=${BSPCXX} \
+		CFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CXXFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		CPPFLAGS="${BSPCFLAGS} ${BSPEXTRAFLAGS} -I${BSPROOTFS}/include" \
+		LDFLAGS="${BSPLDFLAGS} ${BSPEXTRAFLAGS} -L${BSPROOTFS}/lib" \
 		PKG_CONFIG_PATH=${BSPROOTFS}/lib/pkgconfig \
-		./configure --prefix=${BSPROOTFS} \
+		./configure ${BSPHOST} --prefix=${BSPROOTFS} \
 		--with-pic --enable-static --disable-shared \
 		--disable-verbose \
 		--disable-manual \
 		--disable-debug \
 		--disable-curldebug \
+		--disable-libcurl-option \
 		--enable-optimize \
 		--enable-symbol-hiding \
+		--disable-unix-sockets \
 		--disable-ftp --disable-ldap --disable-ldaps --disable-rtsp \
 		--disable-dict --disable-telnet --disable-tftp --disable-pop3 \
 		--disable-imap --disable-smb --disable-smtp --disable-gopher \
