@@ -1,15 +1,6 @@
 # glue-sdk
 Work-in-progress Bitcoin (and some more) SDK for Linux, macOS and iOS (`x86_64` and `ios64`)
 
-## Linux and macOS
-```sh
-$ source environment
-$ make all
-# for debugging
-$ PRINT_DEBUG=y make all
-```
-Output directory will be `$PROJECT_DIR/rootfs/x86_64`
-
 ## iOS
 ```sh
 $ source environment.ios64
