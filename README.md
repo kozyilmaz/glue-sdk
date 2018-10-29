@@ -11,3 +11,10 @@ $ PRINT_DEBUG=y make all
 Output directory will be `$PROJECT_DIR/rootfs/ios64`
 
 ## bb
+```sh
+$ source environment.iossim
+$ make all
+# for debugging
+$ PRINT_DEBUG=y make all
+```
+Output directory will be `$PROJECT_DIR/rootfs/iossim`
