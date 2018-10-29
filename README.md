@@ -1,2 +1,2 @@
-# blockchain-sdk
-Blockchain SDK for interfacing Bitcoin (for now)
+# glue-sdk
+Bitcoin (and some more) SDK for Linux, macOS and iOS
