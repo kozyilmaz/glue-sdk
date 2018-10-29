@@ -10,6 +10,7 @@ bitcoin_clone:
 	if [ ! -d "bitcoin-$(BITCOIN_VERSION)" ]; then tar xvf bitcoin-$(BITCOIN_VERSION).tar.gz; fi
 
 bitcoin_config:
+	$(call patchme,bitcoin-$(BITCOIN_VERSION))
 	if [ ! -f "bitcoin-$(BITCOIN_VERSION)/configure" ]; then (cd bitcoin-$(BITCOIN_VERSION) && ./autogen.sh); fi
 	( cd bitcoin-$(BITCOIN_VERSION); \
 		CC=${BSPCC} \
