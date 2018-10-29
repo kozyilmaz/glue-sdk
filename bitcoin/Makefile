@@ -37,15 +37,19 @@ bitcoin_build:
 	make -C bitcoin-$(BITCOIN_VERSION) -j ${BSPJOB}
 
 bitcoin_install:
+# bins
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoind" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoind ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli ${BSPROOTFS}/bin; fi
+# libs
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/secp256k1/.libs/libsecp256k1.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/secp256k1/.libs/libsecp256k1.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/crypto/libbitcoin_crypto_base.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/crypto/libbitcoin_crypto*.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_util.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_util.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_common.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_common.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_consensus.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_consensus.a ${BSPROOTFS}/lib; fi
+	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_server.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_server.a ${BSPROOTFS}/lib; fi
+# headers
 # univalue
 	mkdir -p ${BSPROOTFS}/include/bitcoin; cp bitcoin-$(BITCOIN_VERSION)/src/univalue/include/*.h ${BSPROOTFS}/include/bitcoin/
 # secp256k1
@@ -60,7 +64,13 @@ bitcoin_install:
 # support
 	mkdir -p ${BSPROOTFS}/include/bitcoin/support; cp bitcoin-$(BITCOIN_VERSION)/src/support/*.h ${BSPROOTFS}/include/bitcoin/support
 	mkdir -p ${BSPROOTFS}/include/bitcoin/support/allocators; cp bitcoin-$(BITCOIN_VERSION)/src/support/allocators/*.h ${BSPROOTFS}/include/bitcoin/support/allocators
-# private and public key ops
+# script
+	mkdir -p ${BSPROOTFS}/include/bitcoin/script; cp bitcoin-$(BITCOIN_VERSION)/src/script/*.h ${BSPROOTFS}/include/bitcoin/script
+# primitives
+	mkdir -p ${BSPROOTFS}/include/bitcoin/primitives; cp bitcoin-$(BITCOIN_VERSION)/src/primitives/*.h ${BSPROOTFS}/include/bitcoin/primitives
+# consensus
+	mkdir -p ${BSPROOTFS}/include/bitcoin/consensus; cp bitcoin-$(BITCOIN_VERSION)/src/consensus/*.h ${BSPROOTFS}/include/bitcoin/consensus
+# others
 	cp bitcoin-$(BITCOIN_VERSION)/src/prevector.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/span.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/serialize.h ${BSPROOTFS}/include/bitcoin
@@ -71,7 +81,6 @@ bitcoin_install:
 	cp bitcoin-$(BITCOIN_VERSION)/src/hash.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/key.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/pubkey.h ${BSPROOTFS}/include/bitcoin
-# extras (can be removed)
 	cp bitcoin-$(BITCOIN_VERSION)/src/compat.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/fs.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/sync.h ${BSPROOTFS}/include/bitcoin
@@ -82,17 +91,13 @@ bitcoin_install:
 	cp bitcoin-$(BITCOIN_VERSION)/src/utiltime.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/util.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/init.h ${BSPROOTFS}/include/bitcoin
-# base58
 	cp bitcoin-$(BITCOIN_VERSION)/src/netaddress.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/protocol.h ${BSPROOTFS}/include/bitcoin
-	mkdir -p ${BSPROOTFS}/include/bitcoin/script; cp bitcoin-$(BITCOIN_VERSION)/src/script/*.h ${BSPROOTFS}/include/bitcoin/script
 	cp bitcoin-$(BITCOIN_VERSION)/src/streams.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/key_io.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/keystore.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/outputtype.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/amount.h ${BSPROOTFS}/include/bitcoin
-	mkdir -p ${BSPROOTFS}/include/bitcoin/primitives; cp bitcoin-$(BITCOIN_VERSION)/src/primitives/*.h ${BSPROOTFS}/include/bitcoin/primitives
-	mkdir -p ${BSPROOTFS}/include/bitcoin/consensus; cp bitcoin-$(BITCOIN_VERSION)/src/consensus/*.h ${BSPROOTFS}/include/bitcoin/consensus
 	cp bitcoin-$(BITCOIN_VERSION)/src/chainparamsbase.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/chainparams.h ${BSPROOTFS}/include/bitcoin
 	cp bitcoin-$(BITCOIN_VERSION)/src/base58.h ${BSPROOTFS}/include/bitcoin
@@ -108,6 +113,7 @@ bitcoin_uninstall:
 	if [ -f "${BSPROOTFS}/lib/libbitcoin_util.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_util.a; fi
 	if [ -f "${BSPROOTFS}/lib/libbitcoin_common.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_common.a; fi
 	if [ -f "${BSPROOTFS}/lib/libbitcoin_consensus.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_consensus.a; fi
+	if [ -f "${BSPROOTFS}/lib/libbitcoin_server.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_server.a; fi
 	if [ -d "${BSPROOTFS}/include/bitcoin" ]; then rm -rf ${BSPROOTFS}/include/bitcoin; fi
 
 bitcoin_clean:
