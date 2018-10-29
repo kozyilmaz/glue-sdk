@@ -6,10 +6,10 @@ endif
 subdir-y += \
 	tools \
 	openssl \
-	curl \
 	libevent \
 	boost \
 	bitcoin \
+	curl \
 	libevhtp \
 	fifo \
 	json
