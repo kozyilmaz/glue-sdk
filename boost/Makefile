@@ -9,13 +9,23 @@ BOOST_MICRO=0
 
 BOOST_VERSION=$(BOOST_MAJOR)_$(BOOST_MINOR)_$(BOOST_MICRO)
 
+ifeq      ($(TARGET_PLATFORM),MACOS)
+BOOST_TOOLSET = darwin
+else ifeq ($(TARGET_PLATFORM),IOS64)
+BOOST_TOOLSET = darwin
+else ifeq ($(TARGET_PLATFORM),IOSSIM)
+BOOST_TOOLSET = darwin
+else
+BOOST_TOOLSET = gcc
+endif
+
 boost_clone:
 	if [ ! -f "boost_$(BOOST_VERSION).tar.bz2" ]; then curl -OL https://dl.bintray.com/boostorg/release/$(BOOST_MAJOR).$(BOOST_MINOR).$(BOOST_MICRO)/source/boost_$(BOOST_VERSION).tar.bz2; fi
 	if [ ! -d "boost_$(BOOST_VERSION)" ]; then tar xvf boost_$(BOOST_VERSION).tar.bz2; fi
 
 boost_config:
 	if [ ! -f boost_$(BOOST_VERSION)/tools/build/src/user-config.jam ]; then \
-		echo "using darwin : custom : ${BSPCXX} ${BSPCFLAGS} ; " >> boost_$(BOOST_VERSION)/tools/build/src/user-config.jam; \
+		echo "using $(BOOST_TOOLSET) : custom : ${BSPCXX} ${BSPCFLAGS} ; " >> boost_$(BOOST_VERSION)/tools/build/src/user-config.jam; \
 	fi
 	( cd boost_$(BOOST_VERSION); ./bootstrap.sh --prefix=${BSPROOTFS} --without-icu --with-libraries=chrono,filesystem,program_options,system,thread,test )
 
