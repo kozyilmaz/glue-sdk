@@ -1,7 +1,7 @@
 # glue-sdk
-Work-in-progress Bitcoin (and some more) SDK for Linux, macOS and iOS
+Work-in-progress Bitcoin (and some more) SDK for Linux, macOS and iOS (x86_64 and ios64)
 
-for Linux and macOS
+## Linux and macOS
 ```sh
 $ source environment
 $ make all
@@ -10,7 +10,9 @@ $ make all
 $ PRINT_DEBUG=y make all
 ```
 
-for iOS
+Output directory will be `$PROJECT_DIR\x86_64`
+
+## iOS
 ```sh
 $ source environment.ios64
 $ make all
@@ -19,7 +21,9 @@ $ make all
 $ PRINT_DEBUG=y make all
 ```
 
-for iOS Simulator
+Output directory will be `$PROJECT_DIR\ios64`
+
+## iOS Simulator
 ```sh
 $ source environment.iossim
 $ make all
@@ -27,3 +31,5 @@ $ make all
 # for debugging
 $ PRINT_DEBUG=y make all
 ```
+
+Output directory will be `$PROJECT_DIR\iossim`
