@@ -5,7 +5,7 @@ BSPROOT=`pwd`
 # platform
 BSPCC=$(xcrun --sdk iphoneos -f clang)
 BSPCXX=$(xcrun --sdk iphoneos -f clang++)
-BSPHOST="--host=aarch64-apple-ios"
+BSPHOST="--host=aarch64-apple-darwin"
 BSPCFLAGS="-arch arm64 -miphoneos-version-min=11.0 -isysroot $(xcrun --sdk iphoneos --show-sdk-path) -fno-common"
 BSPLDFLAGS=
 BSPEXTRAFLAGS=
@@ -17,7 +17,7 @@ PATH=${BSPTOOLS}/bin:${PATH}
 export BSPJOB BSPROOT BSPCC BSPCXX BSPHOST BSPCFLAGS BSPLDFLAGS BSPEXTRAFLAGS BSPTOOLS BSPROOTFS PATH
 
 # for Makefile's
-export TARGET_MACHINE=ios64
+export TARGET_QUERY=ios64
 
 # tool selection
 export TOOLS_ENABLE_CMAKE=y
