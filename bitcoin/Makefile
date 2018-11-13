@@ -27,10 +27,12 @@ bitcoin_config:
 		--disable-wallet --without-gui --with-daemon \
 		--with-utils --with-libs \
 		--with-boost=${BSPROOTFS} \
+		--with-system-univalue \
 		SSL_CFLAGS="-I${BSPROOTFS}/include" SSL_LIBS="-L${BSPROOTFS}/lib -lssl" \
 		CRYPTO_CFLAGS="-I${BSPROOTFS}/include" CRYPTO_LIBS="-L${BSPROOTFS}/lib -lcrypto" \
 		EVENT_CFLAGS="-I${BSPROOTFS}/include" EVENT_LIBS="-L${BSPROOTFS}/lib -levent" \
 		EVENT_PTHREADS_CFLAGS="-I${BSPROOTFS}/include" EVENT_PTHREADS_LIBS="-L${BSPROOTFS}/lib -levent_pthreads" \
+		UNIVALUE_CFLAGS="-I${BSPROOTFS}/include" UNIVALUE_LIBS="-L${BSPROOTFS}/lib -lunivalue" \
 	)
 
 bitcoin_build:
@@ -42,7 +44,6 @@ bitcoin_install:
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-tx ${BSPROOTFS}/bin; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/bitcoin-cli ${BSPROOTFS}/bin; fi
 # libs
-	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/univalue/.libs/libunivalue.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/secp256k1/.libs/libsecp256k1.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/secp256k1/.libs/libsecp256k1.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/crypto/libbitcoin_crypto_base.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/crypto/libbitcoin_crypto*.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_util.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_util.a ${BSPROOTFS}/lib; fi
@@ -50,8 +51,6 @@ bitcoin_install:
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_consensus.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_consensus.a ${BSPROOTFS}/lib; fi
 	if [ -f "bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_server.a" ]; then cp bitcoin-$(BITCOIN_VERSION)/src/libbitcoin_server.a ${BSPROOTFS}/lib; fi
 # headers
-# univalue
-	mkdir -p ${BSPROOTFS}/include/bitcoin; cp bitcoin-$(BITCOIN_VERSION)/src/univalue/include/*.h ${BSPROOTFS}/include/bitcoin/
 # secp256k1
 	mkdir -p ${BSPROOTFS}/include/bitcoin/secp256k1; cp bitcoin-$(BITCOIN_VERSION)/src/secp256k1/include/*.h ${BSPROOTFS}/include/bitcoin/secp256k1
 # crypto
@@ -107,7 +106,6 @@ bitcoin_uninstall:
 	if [ -f "${BSPROOTFS}/bin/bitcoind" ]; then rm -rf ${BSPROOTFS}/bin/bitcoind; fi
 	if [ -f "${BSPROOTFS}/bin/bitcoin-tx" ]; then rm -rf ${BSPROOTFS}/bin/bitcoin-tx; fi
 	if [ -f "${BSPROOTFS}/bin/bitcoin-cli" ]; then rm -rf ${BSPROOTFS}/bin/bitcoin-cli; fi
-	if [ -f "${BSPROOTFS}/lib/libunivalue.a" ]; then rm -rf ${BSPROOTFS}/lib/libunivalue.a; fi
 	if [ -f "${BSPROOTFS}/lib/libsecp256k1.a" ]; then rm -rf ${BSPROOTFS}/lib/libsecp256k1.a; fi
 	if [ -f "${BSPROOTFS}/lib/libbitcoin_crypto_base.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_crypto*.a; fi
 	if [ -f "${BSPROOTFS}/lib/libbitcoin_util.a" ]; then rm -rf ${BSPROOTFS}/lib/libbitcoin_util.a; fi
