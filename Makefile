@@ -7,6 +7,7 @@ subdir-y += \
 	tools \
 	openssl \
 	libevent \
+	univalue \
 	boost \
 	bitcoin \
 	curl \
@@ -23,6 +24,7 @@ libevent_depends-y = \
 bitcoin_depends-y = \
 	openssl \
 	libevent \
+	univalue \
 	boost
 
 libevhtp_depends-y = \
